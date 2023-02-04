@@ -6,7 +6,7 @@
 /*   By: asacchin <alesacchi1907@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 14:50:29 by asacchin          #+#    #+#             */
-/*   Updated: 2023/02/04 16:12:47 by asacchin         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:48:05 by asacchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ int	ft_printint(int n)
 	if (n < 0)
 	{
 		n = -n;
-		len += putchar('-');
+		len += ft_printchar('-');
 	}
 	if (n > 9)
 	{
-		len += print_int(n / 10);
-		len += print_int(n % 10);
+		len += ft_printint(n / 10);
+		len += ft_printint(n % 10);
 	}
 	else
 		len += ft_printchar(n + 48);
@@ -50,13 +50,13 @@ int	ft_printhex(unsigned int n, const char ptr)
 	else
 	{
 		if (n < 10)
-			len += ft_putchar(48 + n);
+			len += ft_printchar(48 + n);
 		else
 		{
 			if (ptr == 'x')
-				len += ft_putchar('a' + n - 10);
+				len += ft_printchar('a' + n - 10);
 			if (ptr == 'X')
-				len += ft_putchar('A' + n - 10);
+				len += ft_printchar('A' + n - 10);
 		}
 	}
 	return (len);
@@ -69,7 +69,7 @@ int	ft_printunsint(unsigned int n)
 	len = 0;
 	if (n > 9)
 		len += ft_printunsint(n / 10);
-	len += ft_putchar(n % 10 + 48);
+	len += ft_printchar(n % 10 + 48);
 	return (len);
 }
 
@@ -80,15 +80,15 @@ int	ft_printp(uintptr_t n)
 	len = 0;
 	if (n > 15)
 	{
-		len += print_p(n / 16);
-		len += print_p(n % 16);
+		len += ft_printp(n / 16);
+		len += ft_printp(n % 16);
 	}
 	else
 	{
 		if (n < 10)
-			len += ft_putchar(48 + n);
+			len += ft_printchar(48 + n);
 		else
-			len += ft_putchar('a' + n - 10);
+			len += ft_printchar('a' + n - 10);
 	}
 	return (len);
 }

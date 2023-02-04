@@ -6,7 +6,7 @@
 /*   By: asacchin <alesacchi1907@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/04 14:48:30 by asacchin          #+#    #+#             */
-/*   Updated: 2023/02/04 16:12:01 by asacchin         ###   ########.fr       */
+/*   Updated: 2023/02/04 17:54:15 by asacchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_printstr(char *s)
 	i = 0;
 	if (!s)
 	{
-		write(1, ("null"), 6);
+		write(1, "(null)", 6);
 		return (6);
 	}
 	while (s[i])
@@ -44,7 +44,7 @@ int	ft_formats(va_list args, const char format)
 		print_length += ft_printstr(va_arg(args, char *));
 	else if (format == 'p')
 	{
-		print_length += ft_putstr("0x");
+		print_length += ft_printstr("0x");
 		print_length += ft_printp(va_arg(args, uintptr_t));
 	}
 	else if (format == 'd' || format == 'i')
@@ -54,7 +54,7 @@ int	ft_formats(va_list args, const char format)
 	else if (format == 'x' || format == 'X')
 		print_length += ft_printhex(va_arg(args, unsigned int), format);
 	else if (format == '%')
-		print_length += ft_putchar('%');
+		print_length += ft_printchar('%');
 	return (print_length);
 }
 
@@ -75,7 +75,7 @@ int	ft_printf(char const *ptr, ...)
 			i++;
 		}
 		else
-			out += ft_putchar(ptr[i]);
+			out += ft_printchar(ptr[i]);
 		i++;
 	}
 	va_end(v);
