@@ -5,12 +5,11 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: asacchin <alesacchi1907@gmail.com>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/03 11:50:48 by asacchin          #+#    #+#             */
-/*   Updated: 2023/02/03 17:01:44 by asacchin         ###   ########.fr       */
+/*   Created: 2023/02/04 14:48:30 by asacchin          #+#    #+#             */
+/*   Updated: 2023/02/04 16:12:01 by asacchin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "ft_printf.h"
 
 int	ft_printchar(int c)
@@ -19,28 +18,66 @@ int	ft_printchar(int c)
 	return (1);
 }
 
-int ft_formats(va_list args, const char format)
+int	ft_printstr(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+	{
+		write(1, ("null"), 6);
+		return (6);
+	}
+	while (s[i])
+		i += write(1, &s[i], 1);
+	return (i);
+}
+
+int	ft_formats(va_list args, const char format)
 {
 	int	print_length;
 
 	print_length = 0;
 	if (format == 'c')
-		print_lenght += ft_printchar(va_arg(args, int));
+		print_length += ft_printchar(va_arg(args, int));
 	else if (format == 's')
 		print_length += ft_printstr(va_arg(args, char *));
 	else if (format == 'p')
-		print_length += ft_print_ptr(va_arg(args, unsigned long long));
+	{
+		print_length += ft_putstr("0x");
+		print_length += ft_printp(va_arg(args, uintptr_t));
+	}
 	else if (format == 'd' || format == 'i')
-		print_length += ft_printnbr(va_arg(args, int));
+		print_length += ft_printint(va_arg(args, int));
 	else if (format == 'u')
-		print_length += ft_print_unsigned(va_arg(args, unsigned int));
+		print_length += ft_printunsint(va_arg(args, unsigned int));
 	else if (format == 'x' || format == 'X')
-		print_length += ft_print_hex(va_arg(args, unsigned int), format);
+		print_length += ft_printhex(va_arg(args, unsigned int), format);
 	else if (format == '%')
-		print_legth += ft_printpercent();
+		print_length += ft_putchar('%');
 	return (print_length);
+}
 
-int ft_printf(const char, *str, ...)
+int	ft_printf(char const *ptr, ...)
 {
-	int 	i;
+	int		i;
+	int		out;
+	va_list	v;
+
+	i = 0;
+	out = 0;
+	va_start(v, ptr);
+	while (ptr[i])
+	{
+		if (ptr[i] == '%')
+		{
+			out += ft_formats(v, ptr[i + 1]);
+			i++;
+		}
+		else
+			out += ft_putchar(ptr[i]);
+		i++;
+	}
+	va_end(v);
+	return (out);
 }
